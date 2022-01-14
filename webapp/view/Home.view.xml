@@ -1,7 +1,7 @@
 <mvc:View controllerName="com.borusan.fi_cash_manage.controller.Home" xmlns:smartTable="sap.ui.comp.smarttable"
 	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" xmlns:layout="sap.ui.layout"
 	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:cmmns="sap.suite.ui.commons" xmlns:table="sap.ui.table"
-	xmlns:viz.data="sap.viz.ui5.data" xmlns:viz="sap.viz.ui5.controls">
+	xmlns:viz.data="sap.viz.ui5.data" xmlns:viz="sap.viz.ui5.controls" xmlns:f="sap.f">
 	<Page visible="{device>/system/desktop}">
 		<smartFilterBar:SmartFilterBar search="handleSearch" id="smartFilterBar" entitySet="SummarySet" showClearButton="true">
 			<smartFilterBar:controlConfiguration>
@@ -19,16 +19,21 @@
 				<FlexItemData shrinkFactor="0"/>
 			</smartFilterBar:layoutData>
 		</smartFilterBar:SmartFilterBar>
-		<VBox>
+		<VBox visible="{ui>/tableVisible}">
 			<smartTable:SmartTable id="LineItemsSmartTable" entitySet="SummarySet" smartFilterId="smartFilterBar" tableType="Table"
 				useExportToExcel="true" useVariantManagement="true" useTablePersonalisation="true" header="{i18n>summaryTableHeader}" showRowCount="true"
 				initiallyVisibleFields="Bukrs,Hbkid,Hktid,Bankn,Waers,Opening,TotalIn,TotalOut,Closing" persistencyKey="SmartTableAnalytical_Explored"
-				requestAtLeastFields="Hkont"
-				class="sapUiResponsiveContentPadding">
+				requestAtLeastFields="Hkont" class="sapUiResponsiveContentPadding">
 				<!-- layout data used to make the table growing but the filter bar fixed -->
 				<smartTable:layoutData>
 					<FlexItemData growFactor="1" baseSize="0%"/>
 				</smartTable:layoutData>
+				<smartTable:customToolbar>
+					<OverflowToolbar design="Transparent">
+						<ToolbarSpacer/>
+						<Button press="handleSeeCharts" text="Grafik" icon="sap-icon://multiple-bar-chart"/>
+					</OverflowToolbar>
+				</smartTable:customToolbar>
 				<table:Table selectionMode="Single" rowSelectionChange="handleRowSelect" visibleRowCount="20"></table:Table>
 			</smartTable:SmartTable>
 			<table:Table visible="{ui>/detailVisible}" selectionMode="None" rows="{ui>/detailData/data}"
@@ -49,83 +54,97 @@
 				<!--</table:columns>-->
 			</table:Table>
 		</VBox>
-		<!--<layout:VerticalLayout>-->
-		<Carousel class="sapUiContentPadding" loop="true">
-			<layout:FixFlex id="fixFlexCombined" minFlexSize="250">
-				<!--Below is the setting panel -->
-				<layout:fixContent></layout:fixContent>
-				<layout:flexContent>
-					<viz:VizFrame title="Cash Inflow-Outflow Combined" id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='100%' width="100%"
-						vizType='bar'>
-						<viz:dataset>
-							<viz.data:FlattenedDataset data="{/InfChartSet}">
-								<viz.data:dimensions>
-									<viz.data:DimensionDefinition name="Key" value="{Key}"/>
-								</viz.data:dimensions>
-								<viz.data:measures>
-									<viz.data:MeasureDefinition name="TotalIn" value="{TotalIn}"/>
-								</viz.data:measures>
-								<viz.data:measures>
-									<viz.data:MeasureDefinition name="TotalOut" value="{TotalOut}"/>
-								</viz.data:measures>
-							</viz.data:FlattenedDataset>
-						</viz:dataset>
-						<viz:feeds>
-							<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="TotalIn"/>
-							<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="TotalOut"/>
-							<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Key"/>
-						</viz:feeds>
-					</viz:VizFrame>
-				</layout:flexContent>
-			</layout:FixFlex>
-			<!--<layout:HorizontalLayout>-->
-			<layout:FixFlex id="fixFlexInf" minFlexSize="250">
-				<!--Below is the setting panel -->
-				<layout:fixContent></layout:fixContent>
-				<layout:flexContent>
-					<viz:VizFrame title="Cash Inflow" id="idVizFramePieInf" uiConfig="{applicationSet:'fiori'}" height='100%' width="100%" vizType="pie">
-						<viz:dataset>
-							<viz.data:FlattenedDataset data="{/InfChartSet}">
-								<viz.data:dimensions>
-									<viz.data:DimensionDefinition name="Key" value="{Key}"/>
-								</viz.data:dimensions>
-								<viz.data:measures>
-									<viz.data:MeasureDefinition name="TotalIn" value="{TotalIn}"/>
-								</viz.data:measures>
-							</viz.data:FlattenedDataset>
-						</viz:dataset>
-						<viz:feeds>
-							<viz.feeds:FeedItem uid="size" type="Measure" values="TotalIn"/>
-							<viz.feeds:FeedItem uid="color" type="Dimension" values="Key"/>
-						</viz:feeds>
-					</viz:VizFrame>
-				</layout:flexContent>
-			</layout:FixFlex>
-			<layout:FixFlex id="fixFlexOut" minFlexSize="250">
-				<!--Below is the setting panel -->
-				<layout:fixContent></layout:fixContent>
-				<layout:flexContent>
-					<viz:VizFrame title="Cash Outflow" id="idVizFramePieOut" uiConfig="{applicationSet:'fiori'}" height='100%' width="100%" vizType='pie'>
-						<viz:dataset>
-							<viz.data:FlattenedDataset data="{/InfChartSet}">
-								<viz.data:dimensions>
-									<viz.data:DimensionDefinition name="Key" value="{Key}"/>
-								</viz.data:dimensions>
-								<viz.data:measures>
-									<viz.data:MeasureDefinition name="TotalOut" value="{TotalOut}"/>
-								</viz.data:measures>
-							</viz.data:FlattenedDataset>
-						</viz:dataset>
-						<viz:feeds>
-							<viz.feeds:FeedItem uid="size" type="Measure" values="TotalOut"/>
-							<viz.feeds:FeedItem uid="color" type="Dimension" values="Key"/>
-						</viz:feeds>
-					</viz:VizFrame>
-				</layout:flexContent>
-			</layout:FixFlex>
-		</Carousel>
-		<!--</layout:HorizontalLayout>-->
-		<!--</layout:VerticalLayout>-->
+		<layout:FixFlex id="fixFlexCombined" minFlexSize="250" visible="{ui>/chartVisible}">
+			<!--<FlexBox height="20px" alignItems="End" justifyContent="End">-->
+			<!--	<Button text="Tablo" press="handleSeeTables" icon="sap-icon://table-view"/>-->
+			<!--</FlexBox>-->
+			<layout:fixContent>
+				<Toolbar>
+					<ToolbarSpacer/>
+					<Button press="handleSeeTables" text="Tablo" icon="sap-icon://table-view"/>
+				</Toolbar>
+			</layout:fixContent>
+			<layout:flexContent>
+				<viz:VizFrame width="100%" title="Cash Inflow-Outflow Combined" id="idVizFrame" uiConfig="{applicationSet:'fiori'}" vizType='bar'>
+					<viz:dataset>
+						<viz.data:FlattenedDataset data="{/InfChartSet}">
+							<viz.data:dimensions>
+								<viz.data:DimensionDefinition name="Key" value="{Key}"/>
+							</viz.data:dimensions>
+							<viz.data:measures>
+								<viz.data:MeasureDefinition name="TotalIn" value="{TotalIn}"/>
+							</viz.data:measures>
+							<viz.data:measures>
+								<viz.data:MeasureDefinition name="TotalOut" value="{TotalOut}"/>
+							</viz.data:measures>
+						</viz.data:FlattenedDataset>
+					</viz:dataset>
+					<viz:feeds>
+						<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="TotalIn"/>
+						<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="TotalOut"/>
+						<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Key"/>
+					</viz:feeds>
+				</viz:VizFrame>
+			</layout:flexContent>
+		</layout:FixFlex>
+		<VBox alignItems="Center" visible="{ui>/chartVisible}">
+			<!--<Carousel class="sapUiContentPadding" loop="true">-->
+			<!--<f:GridContainer id="demoGrid" class="sapUiSmallMargin" columnsChange=".onGridColumnsChange">-->
+			<!--	<f:layout>-->
+			<!--		<f:GridContainerSettings rowSize="500px" columnSize="500px" gap="20px"/>-->
+			<!--	</f:layout>-->
+			<!--	<f:layoutXS>-->
+			<!--		<f:GridContainerSettings rowSize="500px" columnSize="500px" gap="20px"/>-->
+			<!--	</f:layoutXS>-->
+			<HBox alignItems="Center">
+				<layout:FixFlex id="fixFlexInf" minFlexSize="250">
+					<!--Below is the setting panel -->
+					<layout:fixContent></layout:fixContent>
+					<layout:flexContent>
+						<viz:VizFrame title="Cash Inflow" id="idVizFramePieInf" uiConfig="{applicationSet:'fiori'}" vizType="pie">
+							<viz:dataset>
+								<viz.data:FlattenedDataset data="{/InfChartSet}">
+									<viz.data:dimensions>
+										<viz.data:DimensionDefinition name="Key" value="{Key}"/>
+									</viz.data:dimensions>
+									<viz.data:measures>
+										<viz.data:MeasureDefinition name="TotalIn" value="{TotalIn}"/>
+									</viz.data:measures>
+								</viz.data:FlattenedDataset>
+							</viz:dataset>
+							<viz:feeds>
+								<viz.feeds:FeedItem uid="size" type="Measure" values="TotalIn"/>
+								<viz.feeds:FeedItem uid="color" type="Dimension" values="Key"/>
+							</viz:feeds>
+						</viz:VizFrame>
+					</layout:flexContent>
+				</layout:FixFlex>
+				<layout:FixFlex id="fixFlexOut" minFlexSize="250">
+					<!--Below is the setting panel -->
+					<layout:fixContent></layout:fixContent>
+					<layout:flexContent>
+						<viz:VizFrame title="Cash Outflow" id="idVizFramePieOut" uiConfig="{applicationSet:'fiori'}" vizType='pie'>
+							<viz:dataset>
+								<viz.data:FlattenedDataset data="{/InfChartSet}">
+									<viz.data:dimensions>
+										<viz.data:DimensionDefinition name="Key" value="{Key}"/>
+									</viz.data:dimensions>
+									<viz.data:measures>
+										<viz.data:MeasureDefinition name="TotalOut" value="{TotalOut}"/>
+									</viz.data:measures>
+								</viz.data:FlattenedDataset>
+							</viz:dataset>
+							<viz:feeds>
+								<viz.feeds:FeedItem uid="size" type="Measure" values="TotalOut"/>
+								<viz.feeds:FeedItem uid="color" type="Dimension" values="Key"/>
+							</viz:feeds>
+						</viz:VizFrame>
+					</layout:flexContent>
+				</layout:FixFlex>
+				<!--</f:GridContainer>-->
+				<!--</Carousel>-->
+			</HBox>
+		</VBox>
 	</Page>
 	<Page visible="{= ${device>/system/desktop} ? false : true}">
 		<smartFilterBar:SmartFilterBar search="handleSearch" id="smartFilterBarMobile" entitySet="SummarySet" showClearButton="true">

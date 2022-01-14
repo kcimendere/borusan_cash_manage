@@ -16,6 +16,8 @@ sap.ui.define([
 		onInit: function () {
 			var oJSONModel = new JSONModel({
 				"detailVisible": false,
+				"chartVisible": false,
+				"tableVisible": true,
 
 			});
 			this.getView().setModel(oJSONModel, "ui");
@@ -55,7 +57,7 @@ sap.ui.define([
 			oVizFramePieOut.setVizProperties({
 				legend: {
 					title: {
-						visible: false
+						visible: true
 					}
 				},
 				title: {
@@ -63,18 +65,32 @@ sap.ui.define([
 					text: that.getView().getModel("i18n").getResourceBundle().getText("pieCharOutflowTitle")
 				}
 			});
+			oVizFramePieOut.setVizProperties({
+                    plotArea: {
+                        dataLabel: {
+                            visible: true
+                        }
+                    }
+                });
 			var oVizFramePieInf = this.oVizFrame = this.getView().byId("idVizFramePieInf");
 			oVizFramePieInf.setVizProperties({
 				legend: {
 					title: {
-						visible: false
+						visible: true
 					}
 				},
 				title: {
 					visible: true,
 					text: that.getView().getModel("i18n").getResourceBundle().getText("pieCharInflowTitle")
 				}
-			});
+			});			
+			oVizFramePieInf.setVizProperties({
+                    plotArea: {
+                        dataLabel: {
+                            visible: true
+                        }
+                    }
+                });
 			InitPageUtil.initPageSettings(this.getView());
 		},
 		handleSearch: function (oEvent) {
@@ -199,6 +215,17 @@ sap.ui.define([
 		},
 		onMobileDialogClose: function (oEvent) {
 			this._oMobileDialog.close();
+		},
+		handleSeeCharts:function(oEvent){
+			this.getView().getModel("ui").setProperty("/chartVisible", true);
+			this.getView().getModel("ui").setProperty("/tableVisible", false);
+			this.getView().getModel("ui").refresh();
+		},
+		handleSeeTables:function(oEvent){
+			this.getView().getModel("ui").setProperty("/chartVisible", false);
+			this.getView().getModel("ui").setProperty("/tableVisible", true);
+			this.getView().getModel("ui").refresh();
 		}
+		
 	});
 });
