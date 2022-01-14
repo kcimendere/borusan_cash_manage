@@ -22,7 +22,8 @@
 		<VBox>
 			<smartTable:SmartTable id="LineItemsSmartTable" entitySet="SummarySet" smartFilterId="smartFilterBar" tableType="Table"
 				useExportToExcel="true" useVariantManagement="true" useTablePersonalisation="true" header="{i18n>summaryTableHeader}" showRowCount="true"
-				initiallyVisibleFields="Bukrs,Hbkid,Hktid,Bankn,Hkont,Waers,Opening,TotalIn,TotalOut,Closing" persistencyKey="SmartTableAnalytical_Explored"
+				initiallyVisibleFields="Bukrs,Hbkid,Hktid,Bankn,Waers,Opening,TotalIn,TotalOut,Closing" persistencyKey="SmartTableAnalytical_Explored"
+				requestAtLeastFields="Hkont"
 				class="sapUiResponsiveContentPadding">
 				<!-- layout data used to make the table growing but the filter bar fixed -->
 				<smartTable:layoutData>
