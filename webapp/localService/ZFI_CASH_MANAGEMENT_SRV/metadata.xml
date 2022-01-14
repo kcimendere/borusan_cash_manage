@@ -1,0 +1,32 @@
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZFI_CASH_MANAGEMENT_SRV" xml:lang="en" sap:schema-version="1">
+			<EntityType Name="SUMMARY" sap:content-version="1">
+				<Key><PropertyRef Name="Bukrs"/><PropertyRef Name="Hbkid"/><PropertyRef Name="Hktid"/></Key><Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Company Code" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="Hbkid" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="House Bank" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="Hktid" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="Account ID" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="Bankn" Type="Edm.String" Nullable="false" MaxLength="18" sap:label="Bank Account" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Hkont" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="G/L" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="Waers" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="Currency" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false" sap:semantics="currency-code"/><Property Name="Opening" Type="Edm.Decimal" Nullable="false" Precision="14" Scale="3" sap:unit="Waers" sap:label="Opening Balance"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="TotalIn" Type="Edm.Decimal" Nullable="false" Precision="14" Scale="3" sap:unit="Waers" sap:label="Total Inflow"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="TotalOut" Type="Edm.Decimal" Nullable="false" Precision="14" Scale="3" sap:unit="Waers" sap:label="Total Outflow"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Closing" Type="Edm.Decimal" Nullable="false" Precision="14" Scale="3" sap:unit="Waers" sap:label="Closing Balance"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="UIM_INFO" Type="Edm.String" sap:filterable="false" sap:label="UIM Info" sap:visible="false" sap:updatable="false"/></EntityType>
+			<EntityType Name="DETAIL" sap:content-version="1">
+				<Key><PropertyRef Name="Bukrs"/><PropertyRef Name="Hbkid"/><PropertyRef Name="Hktid"/><PropertyRef Name="OrderF"/><PropertyRef Name="GroupF"/></Key><Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Company Code" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="Hbkid" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="House Bank" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="Hktid" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="Account ID" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="OrderF" Type="Edm.Int32" Nullable="false" sap:label="Order" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="GroupF" Type="Edm.String" Nullable="false" MaxLength="30" sap:label="Group" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="ScrtextL" Type="Edm.String" Nullable="false" MaxLength="40" sap:label="Long Fld Label" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Value" Type="Edm.String" Nullable="false" MaxLength="50" sap:label="Value" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="UIM_INFO" Type="Edm.String" sap:filterable="false" sap:label="UIM Info" sap:visible="false" sap:updatable="false"/></EntityType>
+			<EntityContainer Name="ZFI_CASH_MANAGEMENT_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="SUMMARYSet" EntityType="ZFI_CASH_MANAGEMENT_SRV.SUMMARY" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:content-version="1"/><EntitySet Name="DETAILSet" EntityType="ZFI_CASH_MANAGEMENT_SRV.DETAIL" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:content-version="1"/></EntityContainer><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self"
+				href="http://borusan.gw:443/sap/opu/odata/sap/ZFI_CASH_MANAGEMENT_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version"
+				href="http://borusan.gw:443/sap/opu/odata/sap/ZFI_CASH_MANAGEMENT_SRV/$metadata"/></Schema>
+	</edmx:DataServices>
+</edmx:Edmx>
